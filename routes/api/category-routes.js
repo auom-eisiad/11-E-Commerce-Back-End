@@ -1,73 +1,88 @@
-const router = require('express').Router();
-const { Category, Product } = require('../../models');
+const router = require("express").Router();
+const { Category, Product } = require("../../models");
 
 // The `/api/categories` endpoint
 
-router.get('/', async (req, res) => {
-  // find all categories
-  // be sure to include its associated Products
-  Category.findAll({
-    include: [{ model: Product }],
-  })
-    .then((catData) => res.status(200).json(catData))
-    .catch((err) => res.status(500).json(err));
+// Get all categories with their associated products
+router.get("/", async (req, res) => {
+  try {
+    const categories = await Category.findAll({
+      include: [{ model: Product }],
+    });
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
-router.get('/:id', async (req, res) => {
-  // find one category by its `id` value
-  // be sure to include its associated Products
-  Category.findByPk(req.params.id, {
-    include: [{ model: Product }],
-  })
-    .then((catData) => {
-      if (!catData) {
-        res.status(404).json({ message: 'No category found with this id!' });
-        return;
-      }
-      res.status(200).json(catData);
-    })
-    .catch((err) => res.status(500).json(err));
+// Get one category by its `id` value with associated products
+router.get("/:id", async (req, res) => {
+  try {
+    const category = await Category.findByPk(req.params.id, {
+      include: [{ model: Product }],
+    });
+
+    if (!category) {
+      res.status(404).json({ message: "No category found with this id!" });
+      return;
+    }
+
+    res.status(200).json(category);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
-router.post('/', async (req, res) => {
-  // create a new category
-  Category.create(req.body)
-    .then((catData) => res.status(201).json(catData))
-    .catch((err) => res.status(400).json(err));
+// Create a new category with associated products
+router.post("/", async (req, res) => {
+  try {
+    const newCategory = await Category.create(req.body, {
+      include: [{ model: Product }],
+    });
+    res.status(201).json(newCategory);
+  } catch (error) {
+    res.status(400).json({ error: "Bad Request" });
+  }
 });
 
-router.put('/:id', async (req, res) => {
-  // update a category by its `id` value
-  Category.update(req.body, {
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then((catData) => {
-      if (!catData[0]) {
-        res.status(404).json({ message: 'No category found with this id!' });
-        return;
-      }
-      res.status(200).json({ message: 'Category updated successfully!' });
-    })
-    .catch((err) => res.status(500).json(err));
+// Update a category by its `id` value
+router.put("/:id", async (req, res) => {
+  try {
+    const [updatedCategory] = await Category.update(req.body, {
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!updatedCategory) {
+      res.status(404).json({ message: "No category found with this id!" });
+      return;
+    }
+
+    res.status(200).json({ message: "Category updated successfully!" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
-router.delete('/:id', async (req, res) => {
-  // delete a category by its `id` value
-  Category.destroy({
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then((catData) => {
-      if (!catData) {
-        res.status(404).json({ message: 'No category found with this id!' });
-        return;
-      }
-      res.status(200).json({ message: 'Category deleted successfully!' });
-    })
-    .catch((err) => res.status(500).json(err));
+// Delete a category by its `id` value
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedCategory = await Category.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!deletedCategory) {
+      res.status(404).json({ message: "No category found with this id!" });
+      return;
+    }
+
+    res.status(200).json({ message: "Category deleted successfully!" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 module.exports = router;
