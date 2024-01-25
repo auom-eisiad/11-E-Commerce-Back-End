@@ -1,6 +1,5 @@
 # E-Commerce Back-End
 
-Walkthrough: URL
 ![Screenshot](images/backend.png)
 
 ## Description
@@ -22,7 +21,13 @@ Only installations needed is `npm install` for the node modules.
 
 ## Usage
 
-To use, you will need Insomnia or any application related to it to view how this project works. You can also review it in the walkthrough link provided at the top to view how it works.
+To use, you will need Insomnia or any application related to it to view how this project works.
+
+[Connect DB and Product](https://drive.google.com/file/d/1u5_dpxlBH_mal1__E7-BoEXQCwWlV76n/view): Here I demostrate how to connect into the database and how to GET all products, GET one product, POST a new product, PUT the updated product, and DELETE the new product.
+
+[Catergory](https://drive.google.com/file/d/1YfK0CO4-f65rk1iDXO_OtXtNoWjqOgqo/view): Here I demostrate how to GET all categories, GET one category, POST a new category, PUT the updated category, and DELETE the new category.
+
+[Tag](https://drive.google.com/file/d/1HbJYDobmKw3f8qvxSw0XVuvg-1iJ3eZB/view): Here I demostrate how to GET all tags, GET one tag, POST a new tag, PUT the updated tag, and DELETE the new tag.
 
 ## Credits
 
